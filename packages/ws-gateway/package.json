@@ -1,0 +1,59 @@
+{
+  "name": "@ebca/ws-gateway",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Universal WebSocket gateway adapter for EBCA component projection, mutation, and read queries.",
+  "author": "Resation",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
+    "directory": "packages/ws-gateway"
+  },
+  "bugs": {
+    "url": "https://github.com/ebca-ts/ebca/issues"
+  },
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/ws-gateway#readme",
+  "keywords": [
+    "ebca",
+    "websocket",
+    "socket.io",
+    "nestjs",
+    "event-driven"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/ebca-ws-gateway.js",
+  "types": "dist/ebca-ws-gateway.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/ebca-ws-gateway.d.ts",
+      "require": "./dist/ebca-ws-gateway.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "peerDependencies": {
+    "@ebca/core": "^0.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/microservices": "^11.0.0",
+    "@nestjs/websockets": "^11.0.0",
+    "socket.io": "^4.0.0",
+    "typeorm": "^0.3.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

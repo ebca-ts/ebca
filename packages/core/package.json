@@ -1,0 +1,63 @@
+{
+  "name": "@ebca/core",
+  "version": "0.0.1",
+  "description": "Core runtime for Event-Based Component Architecture.",
+  "author": "Resation",
+  "license": "UNLICENSED",
+  "private": false,
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/ebca-ts/ebca/issues"
+  },
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/core#readme",
+  "keywords": [
+    "ebca",
+    "ecs",
+    "event-driven",
+    "nestjs",
+    "nats"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "peerDependencies": {
+    "@keyv/redis": "^5.0.0",
+    "@nestjs/cache-manager": "^3.0.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/microservices": "^11.0.0",
+    "cache-manager": ">=6.0.0",
+    "nats": "^2.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.0.0",
+    "typeorm": "^0.3.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "@ebca/cli",
+  "version": "0.0.1",
+  "description": "Command line tools for EBCA runtime inspection, reports, and transport contract generation.",
+  "author": "Resation",
+  "license": "UNLICENSED",
+  "private": false,
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/ebca-ts/ebca/issues"
+  },
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/cli#readme",
+  "keywords": [
+    "ebca",
+    "cli",
+    "nestjs",
+    "runtime-inspection",
+    "contract-generation"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ebca": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "peerDependencies": {
+    "@ebca/core": "^0.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/testing": "^11.0.0",
+    "reflect-metadata": "^0.2.0",
+    "typescript": ">=5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

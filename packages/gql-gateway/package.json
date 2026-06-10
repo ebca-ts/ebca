@@ -1,0 +1,80 @@
+{
+  "name": "@ebca/gql-gateway",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Transport-neutral GraphQL-facing query adapter for EBCA read repositories.",
+  "author": "Resation",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
+    "directory": "packages/gql-gateway"
+  },
+  "bugs": {
+    "url": "https://github.com/ebca-ts/ebca/issues"
+  },
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/gql-gateway#readme",
+  "keywords": [
+    "ebca",
+    "graphql",
+    "nestjs",
+    "read-model",
+    "event-driven"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/ebca-gql-gateway.js",
+  "types": "dist/ebca-gql-gateway.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/ebca-gql-gateway.d.ts",
+      "require": "./dist/ebca-gql-gateway.js"
+    },
+    "./nestjs": {
+      "types": "./dist/nestjs/ebca-gql-nestjs.d.ts",
+      "require": "./dist/nestjs/ebca-gql-nestjs.js"
+    },
+    "./nestjs/*": {
+      "types": "./dist/nestjs/*.d.ts",
+      "require": "./dist/nestjs/*.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json",
+    "build:nestjs": "tsc -p tsconfig.nestjs.json",
+    "build:all": "bun run build && bun run build:nestjs"
+  },
+  "peerDependencies": {
+    "@ebca/core": "^0.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/graphql": ">=13.0.0",
+    "graphql": ">=16.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/graphql": {
+      "optional": true
+    },
+    "graphql": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@nestjs/graphql": ">=13.0.0",
+    "graphql": ">=16.0.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
