@@ -55,6 +55,8 @@ It shows the real core surface:
 
 The example includes the required NestJS wiring for PostgreSQL, Redis, NATS, and `EbcaModule`.
 
+Command components track their source (`system`, `websocket`, `rest`, or `graphql`) so gateways can share the same command base without hiding where an intent entered the system.
+
 ## Runtime Metadata
 
 EBCA decorators register metadata at runtime. That metadata powers:

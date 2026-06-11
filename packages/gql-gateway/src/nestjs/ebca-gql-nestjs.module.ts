@@ -1,5 +1,6 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { EbcaGqlGatewayModule } from '../ebca-gql-gateway.module';
+import { EbcaGqlProjectorController } from './ebca-gql-projector.controller';
 import { EbcaGraphqlQueryResolver } from './resolvers/ebca-graphql-query.resolver';
 import { EbcaJsonScalar } from './scalars/ebca-json.scalar';
 import { EBCA_GQL_NESTJS_IDENTITY_RESOLVER } from './tokens';
@@ -20,6 +21,7 @@ export class EbcaGqlNestjsModule {
     return {
       module: EbcaGqlNestjsModule,
       imports: [EbcaGqlGatewayModule.forRoot(options.ebca)],
+      controllers: [EbcaGqlProjectorController],
       providers,
       exports: [
         EBCA_GQL_NESTJS_IDENTITY_RESOLVER,

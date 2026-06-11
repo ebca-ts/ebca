@@ -1,4 +1,5 @@
 export * from './ebca-gql-nestjs.module';
+export * from './ebca-gql-projector.controller';
 export * from './resolvers/ebca-graphql-query.resolver';
 export * from './scalars/ebca-json.scalar';
 export * from './tokens';

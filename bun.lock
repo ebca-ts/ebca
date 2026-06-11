@@ -99,10 +99,13 @@
         "@nestjs/common": "^11.0.0",
         "@nestjs/core": "^11.0.0",
         "@nestjs/graphql": ">=13.0.0",
+        "@nestjs/microservices": "^11.0.0",
         "graphql": ">=16.0.0",
+        "typeorm": "^0.3.0",
       },
       "optionalPeers": [
         "@nestjs/graphql",
+        "@nestjs/microservices",
         "graphql",
       ],
     },

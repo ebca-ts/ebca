@@ -76,7 +76,7 @@ That makes the architecture more searchable, testable, and reviewable. An AI age
 | `@ebca/core` | Runtime, decorators, `ComponentManager`, persistence, delayed streams, ordered ingress. |
 | `@ebca/cli` | Runtime inspection, reports, graphs, admin component commands, contract generation. |
 | `@ebca/ws-gateway` | Optional Socket.IO/NestJS gateway for component mutation, requests, projection, and queries. |
-| `@ebca/gql-gateway` | Optional GraphQL-facing query executor plus `@ebca/gql-gateway/nestjs`. |
+| `@ebca/gql-gateway` | Optional GraphQL gateway for queries, inbound components, snapshots, and subscriptions plus `@ebca/gql-gateway/nestjs`. |
 | `@ebca/healthcheck` | Optional NestJS health endpoint for database, Redis, and NATS readiness. |
 | `@ebca/rest-gateway` | Optional REST adapter with Swagger docs for inbound components and read queries. |
 

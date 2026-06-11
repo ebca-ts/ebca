@@ -10,6 +10,7 @@ export enum CommandComponentSource {
   SYSTEM = 'system',
   WEBSOCKET = 'websocket',
   REST = 'rest',
+  GRAPHQL = 'graphql',
 }
 
 export type CommandFailureDetailValue =

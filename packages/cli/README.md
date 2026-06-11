@@ -107,7 +107,7 @@ Generated contracts are based on runtime metadata:
 - Component source files provide payload shapes.
 - `@EbcaQuery` and `@EbcaQueryParam` provide query names and params.
 - `@EbcaType` and `@EbcaEnum` explicitly opt types/enums into generated contracts.
-- Command component contracts include status, source, rejection reason, and failure details.
+- Command component contracts include status, source (`system`, `websocket`, `rest`, `graphql`), rejection reason, and failure details.
 
 The CLI does not accept project-specific `componentsRoot` or `enumsRoot` paths. If a type should be part of a generated contract, register it.
 

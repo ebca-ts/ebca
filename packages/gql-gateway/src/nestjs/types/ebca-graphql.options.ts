@@ -20,7 +20,8 @@ export type EbcaGqlNestjsContext = Record<
 export interface EbcaGqlNestjsIdentityResolverContext {
   readonly context: EbcaGqlNestjsContext;
   readonly requestId: string;
-  readonly queryName: string;
+  readonly operationName: string;
+  readonly queryName?: string;
 }
 
 export interface EbcaGqlNestjsIdentityResolver {

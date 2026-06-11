@@ -147,6 +147,7 @@ function renderWebsocketContract(input: {
     '  SYSTEM = "system",',
     '  WEBSOCKET = "websocket",',
     '  REST = "rest",',
+    '  GRAPHQL = "graphql",',
     '}',
     '',
     ...input.typeDeclarations.flatMap((declaration) => [declaration, '']),

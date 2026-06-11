@@ -2,7 +2,7 @@
   "name": "@ebca/gql-gateway",
   "version": "0.0.1",
   "private": false,
-  "description": "Transport-neutral GraphQL-facing query adapter for EBCA read repositories.",
+  "description": "GraphQL gateway for EBCA queries, inbound components, snapshots, and subscriptions.",
   "author": "Resation",
   "license": "Apache-2.0",
   "type": "commonjs",
@@ -58,11 +58,16 @@
     "@ebca/core": "^0.0.1",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/microservices": "^11.0.0",
     "@nestjs/graphql": ">=13.0.0",
-    "graphql": ">=16.0.0"
+    "graphql": ">=16.0.0",
+    "typeorm": "^0.3.0"
   },
   "peerDependenciesMeta": {
     "@nestjs/graphql": {
+      "optional": true
+    },
+    "@nestjs/microservices": {
       "optional": true
     },
     "graphql": {

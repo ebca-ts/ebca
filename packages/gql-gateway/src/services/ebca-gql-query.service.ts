@@ -72,7 +72,7 @@ export class EbcaGqlQueryService {
         `EBCA GraphQL query ${metadata.options.name} handler ${methodName} is not available.`,
       );
     }
-    const result = await handler(params, {
+    const result = await handler.call(repository, params, {
       identity,
       requestId,
       queryName: metadata.options.name,
