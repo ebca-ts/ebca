@@ -1,7 +1,5 @@
-# ebca-gql-gateway/src/services
+# GraphQL Gateway Services
 
-Сервисы transport-neutral GraphQL-facing слоя.
+- `ebca-gql-query.service.ts` validates and executes `@EbcaQuery({ gates: ['gql'] })` read queries.
 
-- `ebca-gql-query.service.ts` исполняет declarative EBCA read queries, открытые для gate `gql`.
-
-Сервис не строит GraphQL schema и не читает HTTP context. Эти части принадлежат приложению или будущему thin adapter-у поверх конкретного GraphQL runtime.
+The service receives an authenticated EBCA identity from the adapter layer. It does not read HTTP context and does not build a GraphQL schema.

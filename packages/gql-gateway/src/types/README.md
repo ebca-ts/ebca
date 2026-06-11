@@ -1,8 +1,6 @@
-# ebca-gql-gateway/src/types
+# GraphQL Gateway Types
 
-Типы публичного API библиотеки.
+- `ebca-gql-gateway.contracts.ts` defines JSON query payload and result shapes.
+- `ebca-gql-gateway.options.ts` defines module options, identity, and execution context contracts.
 
-- `ebca-gql-gateway.contracts.ts` описывает JSON payload/result shape.
-- `ebca-gql-gateway.options.ts` описывает module options, identity и query execution context.
-
-Типы не зависят от `@nestjs/graphql`, чтобы библиотека оставалась переносимой между code-first/schema-first GraphQL adapters.
+These types stay independent from `@nestjs/graphql` so the neutral gateway can be reused by different GraphQL runtimes.

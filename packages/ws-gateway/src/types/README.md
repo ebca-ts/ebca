@@ -1,13 +1,6 @@
-# ebca-ws-gateway types
+# WebSocket Types
 
-## Файлы
+- `ebca-ws-gateway.contracts.ts` defines client/server envelopes, JSON payloads, component requests, and query results.
+- `ebca-ws-gateway.options.ts` defines module options, auth adapters, inbound normalizers, projection policies, and audience resolvers.
 
-- `ebca-ws-gateway.contracts.ts` — JSON payload, client envelopes, component batch и query result.
-- `ebca-ws-gateway.options.ts` — `EbcaWsGatewayModuleOptions`, auth adapter, inbound normalizer, projection policy и audience resolver contracts.
-
-## Identity
-
-Внутреннее имя actor-а — `identityId`.
-Наружное имя в websocket envelope задается `identityField`.
-
-Это позволяет переиспользовать gateway в проектах, где actor называется `playerId`, `accountId`, `userId` или иначе.
+The internal actor field is `identityId`. The public envelope field is configurable through `identityField`.

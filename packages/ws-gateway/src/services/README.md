@@ -1,10 +1,8 @@
-# ebca-ws-gateway services
+# WebSocket Services
 
-## Слои
+- `ebca-ws-component-mutation.service.ts` validates and applies generic inbound component mutations.
+- `ebca-ws-component-request.service.ts` reads exposed component snapshots by entity or collection target.
+- `ebca-ws-projection.service.ts` resolves lifecycle projection audiences and envelopes.
+- `ebca-ws-query.service.ts` executes `@EbcaQuery({ gates: ['ws'] })` read queries.
 
-- `EbcaWsComponentMutationService` проверяет `ComponentOptions.inbound`, roles, scope и пишет компонент через `ComponentManager`.
-- `EbcaWsComponentRequestService` читает exposed-компоненты по entity/collection target и применяет те же projection rules, что live path.
-- `EbcaWsProjectionService` фильтрует lifecycle events и решает recipients через generic owner/world правила или app-provided audience resolvers.
-- `EbcaWsQueryService` исполняет read repository methods, открытые через `@EbcaQuery({ gates: ['ws'] })`.
-
-Сервисы не знают игровых enum/entity/component names. Все такие правила передаются через module options providers.
+Services call framework APIs and project-provided adapters. They should not contain domain rules.

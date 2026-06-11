@@ -1,5 +1,5 @@
-# ebca-gql-gateway/src/utils
+# GraphQL Gateway Utils
 
-Утилиты сериализации для GraphQL-facing JSON payload.
+- `ebca-gql-json.ts` converts serializable query results into JSON-ready values.
 
-- `ebca-gql-json.ts` приводит serializable query result к JSON-ready значению через стандартную JSON-сериализацию, чтобы `Date` и plain snapshot objects выходили из gateway предсказуемо.
+The helper intentionally uses standard JSON serialization semantics so `Date` values and plain snapshots leave the gateway predictably.

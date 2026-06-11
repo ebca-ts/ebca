@@ -1,53 +1,90 @@
-# EBCA core (`@ebca/core`)
+# @ebca/core
 
-Инфраструктурный runtime-слой для Event-Based Component Architecture.
-Он хранит только механики компонента/сущности, маршрутизацию и персистентный конвейер.
+Core runtime for Event-Based Component Architecture.
 
-## Роль
+`@ebca/core` gives a NestJS backend a typed component lifecycle: entities hold components, commands are components, systems react to lifecycle events, and all state changes go through `ComponentManager`.
 
-- Никаких доменных правил: только инфраструктура и контрактная механика.
-- Единый `ComponentManager` как write-path для всех серверных приложений.
-- Единый сериализатор/маршрутизатор lifecycle через EBCA topic-подписки.
-- Кэш + персистентные проекции в PostgreSQL/Cockroach + Redis.
+It is the foundation package for EBCA. It does not include WebSocket, GraphQL, REST, or application-specific business logic.
 
-## Ключевые модули
+## Install
 
-- `src/bases/`
-  - `BaseEntity`, `BaseComponent`, `BaseCommandComponent`.
-- `src/decorators/`
-  - `@Entity`, `@Component`, `@System`, `@EbcaPattern`, `@PersistentProperty`, `@EbcaReadRepository`, `@EbcaQuery`, `@EbcaQueryParam`, `@EbcaType`, `@EbcaEnum`.
-- `src/component.manager.ts`
-  - add/update/upsert/remove/get/getComponents/persistence guards.
-  - проверка разрешений `checkComponentPermissions`, lifecycle-эмиссия в NATS, opt-in ordered ingress для command-компонентов.
-- `src/persistence.manager.ts`
-  - JSONB-проекция и column projections по `@PersistentProperty`.
-- `src/ebca.helpers.ts`
-  - `EbcaEventType`, `getEntityName`, `getComponentName`, `buildEbcaTopic`.
-- `src/types/`
-  - контракты для компонентов/сущностей/систем, query repositories, generated transport declarations и payload-типов.
-- `src/ebca.module.ts`
-  - экспортирует инфраструктурный модуль.
-- `src/delayed-stream.bootstrap.ts`
-  - bootstrap delayed-топиков NATS.
-- `src/ordered-ingress.registry.ts`, `src/ordered-ingress.service.ts`
-  - JetStream-backed ordered ingress: shard выбирается при публикации команды, partition consumer replay-ит исходный EBCA topic и ack-ает после завершения handler-а.
-- `src/index.ts`
-  - публичный экспорт API.
+```bash
+npm install @ebca/core
+```
 
-## Пример использования
+Peer dependencies are intentionally explicit: NestJS, NATS, TypeORM, cache-manager, Redis/Keyv, RxJS, and reflect-metadata are supplied by the consuming application.
 
-- Через `CoreModule.forRoot()` на уровне приложения/домена подключается стек EBCA.
-- Доменные сервисы не пишут компоненты напрямую: операции идут через `ComponentManager`.
-- Приложения подписываются на lifecycle через `@System`/`@EbcaPattern`.
-- Внешний transport contract генерируется через `bun run ebca -- contract websocket`; enum/type declarations попадают туда только если явно зарегистрированы через `@EbcaEnum` или `@EbcaType`.
+## What It Provides
 
-## Интеграции
+- Base classes: `BaseEntity`, `BaseComponent`, `BaseCommandComponent`.
+- Runtime decorators: `@Entity`, `@Component`, `@System`, `@EbcaPattern`.
+- Read-side decorators: `@EbcaReadRepository`, `@EbcaQuery`, `@EbcaQueryParam`.
+- Contract decorators: `@EbcaType`, `@EbcaEnum`.
+- IO metadata: `@EbcaIO` for runtime architecture reports.
+- Persistence mapping: `@PersistentProperty`.
+- `ComponentManager` as the single component read/write path.
+- TypeORM JSONB persistence and column projection support.
+- NATS lifecycle publication.
+- Delayed streams and opt-in ordered ingress for command paths.
 
-- На стороне серверов: `@ebca/core`, доменные `apps/*`, `analytics-sink`, `admin`, `telegram`.
-- На стороне фронта: генерация `client/src/contracts/websocket-components.generated.ts` через EBCA CLI из runtime metadata и explicit `@EbcaEnum`/`@EbcaType` declarations.
-- База и брокер: TypeORM/Cockroach + Redis/Keyv + NATS.
+## Mental Model
 
-## Структура для чтения дальше
+```mermaid
+flowchart LR
+  Boundary["Boundary writes command component"] --> Manager["ComponentManager"]
+  Manager --> State["Redis / DB projection"]
+  Manager --> Lifecycle["ebca.entity.id.event.component"]
+  Lifecycle --> System["@EbcaPattern handler"]
+  System --> Manager
+```
 
-- `src/README.md` — обзорная архитектурная картина `ebca-core`.
-- `src/bases/README.md`, `src/decorators/README.md`, `src/types/README.md` — подробные справочные разделы для каждого слоя.
+Commands, facts, inputs, and state are all represented as components. A gateway or API writes an intent component. A system owns the domain decision. The domain result is expressed as more component lifecycle, not as hidden side effects.
+
+## Example
+
+Use the runnable example in [`examples/counter`](../../examples/counter) as the canonical minimal app.
+
+It shows the real core surface:
+
+- `CounterEntity` extends `BaseEntity` and is registered with `@Entity`.
+- `IncrementCounterCommandComponent` extends `BaseCommandComponent`.
+- `CounterValueComponent` is a persistent `BaseComponent`.
+- `CounterSystem` subscribes with object-form `@EbcaPattern`.
+- `CounterController` writes and reads only through `ComponentManager`.
+
+The example includes the required NestJS wiring for PostgreSQL, Redis, NATS, and `EbcaModule`.
+
+## Runtime Metadata
+
+EBCA decorators register metadata at runtime. That metadata powers:
+
+- handler discovery;
+- architecture reports;
+- command workflow graphs;
+- IO coverage checks;
+- generated transport contracts;
+- optional WebSocket and GraphQL adapters.
+
+This is the heart of why EBCA works well with AI-assisted development: the system can explain its own shape before a human or agent edits it.
+
+## Ordered Ingress
+
+EBCA can keep default NATS lifecycle behavior for most commands while enabling ordered ingress only where sequence matters.
+
+When a handler pattern opts in, command publication resolves a shard at publish time, writes a JetStream envelope, replays the original EBCA topic through the partition consumer, and acknowledges only after the handler completes.
+
+This avoids global locks and keeps horizontal scaling available.
+
+## Boundaries
+
+`@ebca/core` should stay domain-agnostic.
+
+- Put business rules in systems.
+- Put transport policy in adapters.
+- Put read-side filtering in repositories.
+- Use `ComponentManager` for state changes.
+- Keep direct DB writes out of domain lifecycle code unless they are explicit read-model/projection concerns.
+
+## License
+
+Apache-2.0.

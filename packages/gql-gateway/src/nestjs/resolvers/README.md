@@ -1,7 +1,3 @@
-# @ebca/gql-gateway/nestjs/resolvers
+# NestJS GraphQL Resolvers
 
-Resolver classes for the optional NestJS GraphQL adapter.
-
-- `ebca-graphql-query.resolver.ts` exposes a single generic query field and delegates execution to `EbcaGqlQueryService`.
-
-Game-specific resolvers can wrap this service directly when they need named GraphQL fields instead of the generic `ebcaQuery` entrypoint.
+- `ebca-graphql-query.resolver.ts` exposes the generic `ebcaQuery(input)` field and delegates execution to `EbcaGqlQueryService`.

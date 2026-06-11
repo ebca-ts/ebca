@@ -1,6 +1,4 @@
-# @ebca/gql-gateway/nestjs/types
+# NestJS GraphQL Types
 
-Public types for the NestJS GraphQL adapter.
-
-- `ebca-graphql.contracts.ts` contains decorated GraphQL input/output classes.
-- `ebca-graphql.options.ts` contains module options, context shape, and identity resolver contracts.
+- `ebca-graphql.contracts.ts` contains GraphQL input and output classes.
+- `ebca-graphql.options.ts` contains module options and identity resolver contracts.

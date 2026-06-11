@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Command line tools for EBCA runtime inspection, reports, and transport contract generation.",
   "author": "Resation",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "private": false,
   "type": "commonjs",
   "repository": {

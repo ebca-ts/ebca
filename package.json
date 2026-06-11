@@ -3,17 +3,21 @@
   "version": "0.0.1",
   "private": true,
   "description": "TypeScript packages for Event-Based Component Architecture.",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "commonjs",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "scripts": {
     "build": "bun run build:core && bun run build:packages",
     "build:all": "bun run build:core && bun run build:packages && cd packages/gql-gateway && bun run build:nestjs",
     "build:core": "cd packages/core && bun run build",
-    "build:packages": "cd packages/cli && bun run build && cd ../ws-gateway && bun run build && cd ../gql-gateway && bun run build",
-    "pack:dry-run": "npm pack --dry-run --workspace @ebca/core && npm pack --dry-run --workspace @ebca/cli && npm pack --dry-run --workspace @ebca/ws-gateway && npm pack --dry-run --workspace @ebca/gql-gateway"
+    "build:packages": "cd packages/cli && bun run build && cd ../ws-gateway && bun run build && cd ../gql-gateway && bun run build && cd ../healthcheck && bun run build",
+    "example:counter:infra": "docker compose -f examples/counter/docker-compose.yml up -d",
+    "example:counter:build": "bun run --cwd examples/counter build",
+    "example:counter:start": "bun run --cwd examples/counter start",
+    "pack:dry-run": "npm pack --dry-run --workspace @ebca/core && npm pack --dry-run --workspace @ebca/cli && npm pack --dry-run --workspace @ebca/ws-gateway && npm pack --dry-run --workspace @ebca/gql-gateway && npm pack --dry-run --workspace @ebca/healthcheck"
   },
   "devDependencies": {
     "@keyv/redis": "^5.1.1",
@@ -30,6 +34,7 @@
     "graphql": "^16.0.0",
     "nats": "^2.29.3",
     "reflect-metadata": "^0.2.2",
+    "redis": "^5.0.0",
     "rxjs": "^7.8.1",
     "socket.io": "^4.8.1",
     "typeorm": "^0.3.26",

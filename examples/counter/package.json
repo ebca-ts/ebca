@@ -1,0 +1,40 @@
+{
+  "name": "@ebca/example-counter",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Runnable EBCA counter example.",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/main.js",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down -v"
+  },
+  "dependencies": {
+    "@ebca/core": "workspace:*",
+    "@ebca/healthcheck": "workspace:*",
+    "@keyv/redis": "^5.1.1",
+    "@nestjs/cache-manager": "^3.0.1",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/microservices": "^11.1.6",
+    "@nestjs/platform-express": "^11.1.6",
+    "@nestjs/typeorm": "^11.0.0",
+    "cache-manager": "^7.0.0",
+    "nats": "^2.29.3",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.30"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

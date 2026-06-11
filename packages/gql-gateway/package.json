@@ -4,7 +4,7 @@
   "private": false,
   "description": "Transport-neutral GraphQL-facing query adapter for EBCA read repositories.",
   "author": "Resation",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "commonjs",
   "repository": {
     "type": "git",

@@ -1,15 +1,16 @@
-# ebca-gql-gateway/src
+# @ebca/gql-gateway/src
 
-## Основные файлы
+GraphQL-facing query gateway implementation.
 
-- `ebca-gql-gateway.module.ts` — dynamic module и нормализация настроек.
-- `services/ebca-gql-query.service.ts` — named read query path по `@EbcaQuery({ gates: ['gql'] })`.
-- `types/ebca-gql-gateway.contracts.ts` — JSON payload contracts для GraphQL-facing resolver-а.
-- `types/ebca-gql-gateway.options.ts` — module options и identity/query context contracts.
-- `utils/ebca-gql-json.ts` — JSON serialization helpers.
+## Files
 
-## Инварианты
+- `ebca-gql-gateway.module.ts` creates the dynamic NestJS module.
+- `ebca-gql-gateway.ts` exports the transport-neutral package API.
+- `services/ebca-gql-query.service.ts` executes EBCA read queries opened to the `gql` gate.
+- `types/` contains JSON payload, identity, context, and module option contracts.
+- `utils/` contains JSON serialization helpers.
+- `nestjs/` contains the optional NestJS GraphQL bridge exported as `@ebca/gql-gateway/nestjs`.
 
-- Внутри библиотеки нет импортов из consuming project apps, domain aliases или project database entities.
-- Framework знает только EBCA query metadata, Nest container и JSON payload contracts.
-- Настоящий GraphQL transport adapter может быть тонким resolver-слоем поверх `EbcaGqlQueryService`.
+## Boundary
+
+The neutral gateway does not import `@nestjs/graphql`. GraphQL schema/context handling belongs in the optional bridge or in the consuming application.

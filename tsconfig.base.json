@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "@ebca/core": ["packages/core/dist/index"],
-      "@ebca/core/*": ["packages/core/dist/*"]
+      "@ebca/core/*": ["packages/core/dist/*"],
+      "@ebca/healthcheck": ["packages/healthcheck/dist/index"],
+      "@ebca/healthcheck/*": ["packages/healthcheck/dist/*"]
     },
     "esModuleInterop": true,
     "declaration": true,

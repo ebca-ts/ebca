@@ -1,18 +1,16 @@
-# ebca-ws-gateway/src
+# @ebca/ws-gateway/src
 
-## Основные файлы
+Socket.IO/NestJS gateway implementation for EBCA.
 
-- `ebca-ws-gateway.module.ts` — dynamic module и нормализация настроек.
-- `ebca-ws.gateway.ts` — Socket.IO gateway, identity cache, configurable event listeners и outbound envelopes.
-- `ebca-ws-projector.controller.ts` — `ebca.>` subscriber для live projection.
-- `services/ebca-ws-component-mutation.service.ts` — generic inbound write path через `ComponentManager`.
-- `services/ebca-ws-component-request.service.ts` — generic read snapshot path по exposed component metadata.
-- `services/ebca-ws-query.service.ts` — named read query path по `@EbcaQuery({ gates: ['ws'] })`.
-- `types/ebca-ws-gateway.options.ts` — module options, adapters, policies и resolvers.
-- `types/ebca-ws-gateway.contracts.ts` — transport JSON/envelope contracts.
+## Files
 
-## Инварианты
+- `ebca-ws-gateway.module.ts` creates the dynamic NestJS module and normalizes options.
+- `ebca-ws.gateway.ts` owns socket identity, client events, and outbound envelopes.
+- `ebca-ws-projector.controller.ts` subscribes to EBCA lifecycle events and forwards exposed projections.
+- `services/` contains component mutation, component request, projection, and query services.
+- `types/` contains public gateway contracts and module options.
+- `utils/` contains JSON serialization helpers.
 
-- Внутри библиотеки нет импортов из consuming project apps, domain aliases или project database entities.
-- Framework знает только EBCA metadata, Socket.IO envelope и adapter interfaces.
-- Все доменные исключения выражаются через provider-ы приложения.
+## Boundary
+
+The gateway knows EBCA metadata and Socket.IO envelopes. Authentication, custom filtering, and domain-specific policy stay in consuming application providers.

@@ -1,5 +1,3 @@
-# @ebca/gql-gateway/nestjs/utils
+# NestJS GraphQL Utils
 
-Small helpers for GraphQL scalar parsing.
-
-- `ebca-graphql-json.ts` parses GraphQL AST literal values into EBCA JSON values.
+- `ebca-graphql-json.ts` parses GraphQL AST literals and serializes EBCA JSON values.
