@@ -1,6 +1,6 @@
 {
   "name": "@ebca/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Core runtime for Event-Based Component Architecture.",
   "author": "Resation",
   "license": "Apache-2.0",

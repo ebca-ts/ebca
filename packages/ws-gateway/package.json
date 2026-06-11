@@ -1,6 +1,6 @@
 {
   "name": "@ebca/ws-gateway",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "Universal WebSocket gateway adapter for EBCA component projection, mutation, and read queries.",
   "author": "Resation",
@@ -45,7 +45,7 @@
     "build": "tsc -p tsconfig.lib.json"
   },
   "peerDependencies": {
-    "@ebca/core": "^0.0.1",
+    "@ebca/core": "^0.0.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/microservices": "^11.0.0",
