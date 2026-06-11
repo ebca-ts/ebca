@@ -7,7 +7,9 @@
       "@ebca/core": ["packages/core/dist/index"],
       "@ebca/core/*": ["packages/core/dist/*"],
       "@ebca/healthcheck": ["packages/healthcheck/dist/index"],
-      "@ebca/healthcheck/*": ["packages/healthcheck/dist/*"]
+      "@ebca/healthcheck/*": ["packages/healthcheck/dist/*"],
+      "@ebca/rest-gateway": ["packages/rest-gateway/dist/index"],
+      "@ebca/rest-gateway/*": ["packages/rest-gateway/dist/*"]
     },
     "esModuleInterop": true,
     "declaration": true,

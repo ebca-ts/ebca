@@ -9,6 +9,7 @@ export enum CommandComponentStatus {
 export enum CommandComponentSource {
   SYSTEM = 'system',
   WEBSOCKET = 'websocket',
+  REST = 'rest',
 }
 
 export type CommandFailureDetailValue =

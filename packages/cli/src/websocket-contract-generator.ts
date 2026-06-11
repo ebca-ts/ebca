@@ -146,6 +146,7 @@ function renderWebsocketContract(input: {
     'export enum CommandComponentSource {',
     '  SYSTEM = "system",',
     '  WEBSOCKET = "websocket",',
+    '  REST = "rest",',
     '}',
     '',
     ...input.typeDeclarations.flatMap((declaration) => [declaration, '']),

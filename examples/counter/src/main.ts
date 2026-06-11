@@ -3,6 +3,7 @@ import { ConsoleLogger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
+import { setupEbcaRestSwagger } from '@ebca/rest-gateway';
 import { CounterModule } from './counter.module';
 
 async function bootstrap(): Promise<void> {
@@ -16,6 +17,11 @@ async function bootstrap(): Promise<void> {
       servers: config.getOrThrow<string[]>('NATS_SERVERS'),
       queue: 'ebca-example-counter',
     },
+  });
+  setupEbcaRestSwagger(app, {
+    path: 'docs',
+    title: 'EBCA Counter Example',
+    description: 'Runnable EBCA REST gateway example.',
   });
   await app.init();
   await app.startAllMicroservices();

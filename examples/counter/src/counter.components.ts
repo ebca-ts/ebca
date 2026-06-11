@@ -15,6 +15,7 @@ export interface IncrementCounterFailureDetails {
     expose: true,
     operations: ['add'],
     entityId: 'explicit',
+    fields: ['amount'],
   },
 })
 export class IncrementCounterCommandComponent extends BaseCommandComponent<

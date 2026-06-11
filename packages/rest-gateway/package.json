@@ -1,0 +1,58 @@
+{
+  "name": "@ebca/rest-gateway",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Universal REST and Swagger gateway adapter for EBCA inbound components and read queries.",
+  "author": "Resation",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
+    "directory": "packages/rest-gateway"
+  },
+  "bugs": {
+    "url": "https://github.com/ebca-ts/ebca/issues"
+  },
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/rest-gateway#readme",
+  "keywords": [
+    "ebca",
+    "rest",
+    "openapi",
+    "swagger",
+    "nestjs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "peerDependencies": {
+    "@ebca/core": "^0.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

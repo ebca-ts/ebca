@@ -21,6 +21,7 @@ Peer dependencies are intentionally explicit: NestJS, NATS, TypeORM, cache-manag
 - Read-side decorators: `@EbcaReadRepository`, `@EbcaQuery`, `@EbcaQueryParam`.
 - Contract decorators: `@EbcaType`, `@EbcaEnum`.
 - IO metadata: `@EbcaIO` for runtime architecture reports.
+- Inbound component metadata for gateway operations, ownership, roles, and fields.
 - Persistence mapping: `@PersistentProperty`.
 - `ComponentManager` as the single component read/write path.
 - TypeORM JSONB persistence and column projection support.
@@ -50,7 +51,7 @@ It shows the real core surface:
 - `IncrementCounterCommandComponent` extends `BaseCommandComponent`.
 - `CounterValueComponent` is a persistent `BaseComponent`.
 - `CounterSystem` subscribes with object-form `@EbcaPattern`.
-- `CounterController` writes and reads only through `ComponentManager`.
+- `@ebca/rest-gateway` exposes REST mutations, Swagger, and read queries over the same `ComponentManager` path.
 
 The example includes the required NestJS wiring for PostgreSQL, Redis, NATS, and `EbcaModule`.
 

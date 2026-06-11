@@ -51,6 +51,7 @@ export interface ComponentInboundOptions {
   ownerField?: string;
   ownerComponent?: string;
   roles?: string[];
+  fields?: string[];
 }
 
 export interface ComponentOptions {

@@ -78,14 +78,15 @@ That makes the architecture more searchable, testable, and reviewable. An AI age
 | `@ebca/ws-gateway` | Optional Socket.IO/NestJS gateway for component mutation, requests, projection, and queries. |
 | `@ebca/gql-gateway` | Optional GraphQL-facing query executor plus `@ebca/gql-gateway/nestjs`. |
 | `@ebca/healthcheck` | Optional NestJS health endpoint for database, Redis, and NATS readiness. |
+| `@ebca/rest-gateway` | Optional REST adapter with Swagger docs for inbound components and read queries. |
 
-Transport packages are opt-in. `@ebca/core` does not force WebSocket or GraphQL dependencies into your application.
+Transport packages are opt-in. `@ebca/core` does not force WebSocket, REST, or GraphQL dependencies into your application.
 
 ## Working Example
 
 The repository includes a runnable NestJS example in [`examples/counter`](./examples/counter).
 
-It brings up PostgreSQL, Redis, and a JetStream-enabled NATS cluster, starts a real EBCA app, writes an `IncrementCounterCommandComponent` through `ComponentManager`, handles it in `CounterSystem` through `@EbcaPattern`, persists `CounterValueComponent`, and reads the result back through the same manager.
+It brings up PostgreSQL, Redis, and a JetStream-enabled NATS cluster, starts a real EBCA app, writes an `IncrementCounterCommandComponent` through `@ebca/rest-gateway`, handles it in `CounterSystem` through `@EbcaPattern`, persists `CounterValueComponent`, and reads the result back through a REST-open `@EbcaQuery`.
 
 Run it from the repository root:
 
@@ -101,11 +102,11 @@ bun run example:counter:start
 Then send a command:
 
 ```bash
-curl -X POST http://localhost:3000/counter/11111111-1111-4111-8111-111111111111/increment \
+curl -X POST http://localhost:3000/ebca/components/CounterEntity/11111111-1111-4111-8111-111111111111/IncrementCounterCommandComponent/add \
   -H 'content-type: application/json' \
-  -d '{"amount": 3}'
+  -d '{"component":{"amount":3}}'
 
-curl http://localhost:3000/counter/11111111-1111-4111-8111-111111111111
+curl 'http://localhost:3000/ebca/queries/counterState?entityId=11111111-1111-4111-8111-111111111111'
 ```
 
 The important files are:
@@ -114,7 +115,7 @@ The important files are:
 | --- | --- |
 | [`counter.components.ts`](./examples/counter/src/counter.components.ts) | Command and persistent state components. |
 | [`counter.system.ts`](./examples/counter/src/counter.system.ts) | Real `@EbcaPattern` command handler. |
-| [`counter.controller.ts`](./examples/counter/src/counter.controller.ts) | Thin HTTP adapter using `ComponentManager`. |
+| [`counter.read-repository.ts`](./examples/counter/src/counter.read-repository.ts) | REST-open `@EbcaQuery` read model. |
 | [`counter.module.ts`](./examples/counter/src/counter.module.ts) | NestJS wiring for EBCA, TypeORM, Redis, and NATS. |
 
 After that, inspect the runtime:
@@ -178,6 +179,7 @@ npm publish --access public --workspace @ebca/cli
 npm publish --access public --workspace @ebca/ws-gateway
 npm publish --access public --workspace @ebca/gql-gateway
 npm publish --access public --workspace @ebca/healthcheck
+npm publish --access public --workspace @ebca/rest-gateway
 ```
 
 Run `bun run build:all` and `bun run pack:dry-run` before publishing.

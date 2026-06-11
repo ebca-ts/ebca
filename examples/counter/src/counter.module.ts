@@ -6,8 +6,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EbcaModule } from '@ebca/core';
 import { EbcaHealthcheckModule } from '@ebca/healthcheck';
-import { CounterController } from './counter.controller';
+import { EbcaRestGatewayModule } from '@ebca/rest-gateway';
 import { CounterEntity } from './counter.entity';
+import { CounterReadRepository } from './counter.read-repository';
 import { CounterSystem } from './counter.system';
 
 interface CounterAppConfig {
@@ -18,9 +19,9 @@ interface CounterAppConfig {
 }
 
 const DEFAULT_NATS_SERVERS = [
-  'nats://localhost:4222',
-  'nats://localhost:4223',
-  'nats://localhost:4224',
+  'nats://localhost:4422',
+  'nats://localhost:4423',
+  'nats://localhost:4424',
 ];
 
 function normalizeNatsServers(value: string | undefined): string[] {
@@ -99,7 +100,9 @@ class CounterTransportModule {}
     CounterTransportModule,
     EbcaModule,
     EbcaHealthcheckModule.register(),
+    EbcaRestGatewayModule.forRoot(),
   ],
-  controllers: [CounterController, CounterSystem],
+  controllers: [CounterSystem],
+  providers: [CounterReadRepository],
 })
 export class CounterModule {}
