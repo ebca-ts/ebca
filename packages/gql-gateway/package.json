@@ -1,6 +1,6 @@
 {
   "name": "@ebca/gql-gateway",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "private": false,
   "description": "GraphQL gateway for EBCA queries, inbound components, snapshots, and subscriptions.",
   "author": "Resation",
@@ -55,7 +55,7 @@
     "build:all": "bun run build && bun run build:nestjs"
   },
   "peerDependencies": {
-    "@ebca/core": "^0.0.2",
+    "@ebca/core": "^0.0.4",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/microservices": "^11.0.0",

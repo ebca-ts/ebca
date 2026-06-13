@@ -14,6 +14,7 @@
         "@nestjs/microservices": "^11.1.6",
         "@nestjs/swagger": "^11.2.3",
         "@nestjs/testing": "^11.0.1",
+        "@nestjs/typeorm": "^11.0.1",
         "@nestjs/websockets": "^11.1.6",
         "@types/node": "^24.3.0",
         "cache-manager": "^7.0.0",
@@ -55,14 +56,29 @@
         "typescript": "^5.9.3",
       },
     },
+    "packages/analytics-sink": {
+      "name": "@ebca/analytics-sink",
+      "version": "0.0.4",
+      "peerDependencies": {
+        "@ebca/core": "^0.0.4",
+        "@nestjs/common": "^11.0.0",
+        "@nestjs/core": "^11.0.0",
+        "@nestjs/microservices": "^11.0.0",
+        "@nestjs/typeorm": "^11.0.0",
+        "nats": "^2.0.0",
+        "reflect-metadata": "^0.2.0",
+        "rxjs": "^7.0.0",
+        "typeorm": "^0.3.0",
+      },
+    },
     "packages/cli": {
       "name": "@ebca/cli",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "bin": {
         "ebca": "dist/cli.js",
       },
       "peerDependencies": {
-        "@ebca/core": "^0.0.2",
+        "@ebca/core": "^0.0.4",
         "@nestjs/common": "^11.0.0",
         "@nestjs/testing": "^11.0.0",
         "reflect-metadata": "^0.2.0",
@@ -71,7 +87,7 @@
     },
     "packages/core": {
       "name": "@ebca/core",
-      "version": "0.0.2",
+      "version": "0.0.4",
       "peerDependencies": {
         "@keyv/redis": "^5.0.0",
         "@nestjs/cache-manager": "^3.0.0",
@@ -88,14 +104,14 @@
     },
     "packages/gql-gateway": {
       "name": "@ebca/gql-gateway",
-      "version": "0.0.2",
+      "version": "0.0.4",
       "devDependencies": {
         "@nestjs/graphql": ">=13.0.0",
         "graphql": ">=16.0.0",
         "typescript": "^5.7.3",
       },
       "peerDependencies": {
-        "@ebca/core": "^0.0.2",
+        "@ebca/core": "^0.0.4",
         "@nestjs/common": "^11.0.0",
         "@nestjs/core": "^11.0.0",
         "@nestjs/graphql": ">=13.0.0",
@@ -111,7 +127,7 @@
     },
     "packages/healthcheck": {
       "name": "@ebca/healthcheck",
-      "version": "0.0.2",
+      "version": "0.0.4",
       "peerDependencies": {
         "@nestjs/common": "^11.0.0",
         "@nestjs/config": "^4.0.0",
@@ -125,9 +141,9 @@
     },
     "packages/rest-gateway": {
       "name": "@ebca/rest-gateway",
-      "version": "0.0.2",
+      "version": "0.0.4",
       "peerDependencies": {
-        "@ebca/core": "^0.0.2",
+        "@ebca/core": "^0.0.4",
         "@nestjs/common": "^11.0.0",
         "@nestjs/core": "^11.0.0",
         "@nestjs/swagger": "^11.0.0",
@@ -137,9 +153,9 @@
     },
     "packages/ws-gateway": {
       "name": "@ebca/ws-gateway",
-      "version": "0.0.2",
+      "version": "0.0.4",
       "peerDependencies": {
-        "@ebca/core": "^0.0.2",
+        "@ebca/core": "^0.0.4",
         "@nestjs/common": "^11.0.0",
         "@nestjs/core": "^11.0.0",
         "@nestjs/microservices": "^11.0.0",
@@ -153,6 +169,8 @@
     "@borewit/text-codec": ["@borewit/text-codec@0.2.2", "", {}, "sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ=="],
 
     "@cacheable/utils": ["@cacheable/utils@2.4.1", "", { "dependencies": { "hashery": "^1.5.1", "keyv": "^5.6.0" } }, "sha512-eiFgzCbIneyMlLOmNG4g9xzF7Hv3Mga4LjxjcSC/ues6VYq2+gUbQI8JqNuw/ZM8tJIeIaBGpswAsqV2V7ApgA=="],
+
+    "@ebca/analytics-sink": ["@ebca/analytics-sink@workspace:packages/analytics-sink"],
 
     "@ebca/cli": ["@ebca/cli@workspace:packages/cli"],
 

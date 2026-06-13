@@ -1,6 +1,6 @@
 {
   "name": "ebca",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "private": true,
   "description": "TypeScript packages for Event-Based Component Architecture.",
   "license": "Apache-2.0",
@@ -13,11 +13,11 @@
     "build": "bun run build:core && bun run build:packages",
     "build:all": "bun run build:core && bun run build:packages && cd packages/gql-gateway && bun run build:nestjs",
     "build:core": "cd packages/core && bun run build",
-    "build:packages": "cd packages/cli && bun run build && cd ../ws-gateway && bun run build && cd ../gql-gateway && bun run build && cd ../healthcheck && bun run build && cd ../rest-gateway && bun run build",
+    "build:packages": "cd packages/cli && bun run build && cd ../ws-gateway && bun run build && cd ../gql-gateway && bun run build && cd ../healthcheck && bun run build && cd ../rest-gateway && bun run build && cd ../analytics-sink && bun run build",
     "example:counter:infra": "docker compose -f examples/counter/docker-compose.yml up -d",
     "example:counter:build": "bun run --cwd examples/counter build",
     "example:counter:start": "bun run --cwd examples/counter start",
-    "pack:dry-run": "npm pack --dry-run --workspace @ebca/core && npm pack --dry-run --workspace @ebca/cli && npm pack --dry-run --workspace @ebca/ws-gateway && npm pack --dry-run --workspace @ebca/gql-gateway && npm pack --dry-run --workspace @ebca/healthcheck && npm pack --dry-run --workspace @ebca/rest-gateway"
+    "pack:dry-run": "npm pack --dry-run --workspace @ebca/core && npm pack --dry-run --workspace @ebca/cli && npm pack --dry-run --workspace @ebca/ws-gateway && npm pack --dry-run --workspace @ebca/gql-gateway && npm pack --dry-run --workspace @ebca/healthcheck && npm pack --dry-run --workspace @ebca/rest-gateway && npm pack --dry-run --workspace @ebca/analytics-sink"
   },
   "devDependencies": {
     "@keyv/redis": "^5.1.1",
@@ -29,6 +29,7 @@
     "@nestjs/microservices": "^11.1.6",
     "@nestjs/swagger": "^11.2.3",
     "@nestjs/testing": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.1",
     "@nestjs/websockets": "^11.1.6",
     "@types/node": "^24.3.0",
     "cache-manager": "^7.0.0",

@@ -79,6 +79,7 @@ That makes the architecture more searchable, testable, and reviewable. An AI age
 | `@ebca/gql-gateway` | Optional GraphQL gateway for queries, inbound components, snapshots, and subscriptions plus `@ebca/gql-gateway/nestjs`. |
 | `@ebca/healthcheck` | Optional NestJS health endpoint for database, Redis, and NATS readiness. |
 | `@ebca/rest-gateway` | Optional REST adapter with Swagger docs for inbound components and read queries. |
+| `@ebca/analytics-sink` | Optional NestJS/TypeORM sink that persists EBCA lifecycle events into `ecs_events`. |
 
 Transport packages are opt-in. `@ebca/core` does not force WebSocket, REST, or GraphQL dependencies into your application.
 
@@ -180,6 +181,7 @@ npm publish --access public --workspace @ebca/ws-gateway
 npm publish --access public --workspace @ebca/gql-gateway
 npm publish --access public --workspace @ebca/healthcheck
 npm publish --access public --workspace @ebca/rest-gateway
+npm publish --access public --workspace @ebca/analytics-sink
 ```
 
 Run `bun run build:all` and `bun run pack:dry-run` before publishing.

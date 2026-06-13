@@ -1,36 +1,36 @@
 {
-  "name": "@ebca/ws-gateway",
+  "name": "@ebca/analytics-sink",
   "version": "0.0.4",
   "private": false,
-  "description": "Universal WebSocket gateway adapter for EBCA component projection, mutation, and read queries.",
+  "description": "Optional NestJS analytics sink for persisting EBCA lifecycle events with TypeORM.",
   "author": "Resation",
   "license": "Apache-2.0",
   "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/ebca-ts/ebca.git",
-    "directory": "packages/ws-gateway"
+    "directory": "packages/analytics-sink"
   },
   "bugs": {
     "url": "https://github.com/ebca-ts/ebca/issues"
   },
-  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/ws-gateway#readme",
+  "homepage": "https://github.com/ebca-ts/ebca/tree/main/packages/analytics-sink#readme",
   "keywords": [
     "ebca",
-    "websocket",
-    "socket.io",
+    "analytics",
+    "sink",
     "nestjs",
-    "event-driven"
+    "typeorm"
   ],
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/ebca-ws-gateway.js",
-  "types": "dist/ebca-ws-gateway.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/ebca-ws-gateway.d.ts",
-      "require": "./dist/ebca-ws-gateway.js"
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
     },
     "./*": {
       "types": "./dist/*.d.ts",
@@ -49,8 +49,10 @@
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/microservices": "^11.0.0",
-    "@nestjs/websockets": "^11.0.0",
-    "socket.io": "^4.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "nats": "^2.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.0.0",
     "typeorm": "^0.3.0"
   },
   "engines": {

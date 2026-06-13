@@ -1,6 +1,6 @@
 {
   "name": "@ebca/cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Command line tools for EBCA runtime inspection, reports, and transport contract generation.",
   "author": "Resation",
   "license": "Apache-2.0",
@@ -44,7 +44,7 @@
     "build": "tsc -p tsconfig.lib.json"
   },
   "peerDependencies": {
-    "@ebca/core": "^0.0.2",
+    "@ebca/core": "^0.0.4",
     "@nestjs/common": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "reflect-metadata": "^0.2.0",

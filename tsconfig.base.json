@@ -9,7 +9,9 @@
       "@ebca/healthcheck": ["packages/healthcheck/dist/index"],
       "@ebca/healthcheck/*": ["packages/healthcheck/dist/*"],
       "@ebca/rest-gateway": ["packages/rest-gateway/dist/index"],
-      "@ebca/rest-gateway/*": ["packages/rest-gateway/dist/*"]
+      "@ebca/rest-gateway/*": ["packages/rest-gateway/dist/*"],
+      "@ebca/analytics-sink": ["packages/analytics-sink/dist/index"],
+      "@ebca/analytics-sink/*": ["packages/analytics-sink/dist/*"]
     },
     "esModuleInterop": true,
     "declaration": true,
