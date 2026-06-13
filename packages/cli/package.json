@@ -1,6 +1,6 @@
 {
   "name": "@ebca/cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Command line tools for EBCA runtime inspection, reports, and transport contract generation.",
   "author": "Resation",
   "license": "Apache-2.0",

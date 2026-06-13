@@ -7,8 +7,12 @@ import type {
   ComponentAdminJsonObject,
   ComponentAdminOperation,
   ComponentAdminRequest,
-  ComponentAdminRuntimeFactory,
 } from './admin-component-crud';
+import {
+  ProjectRuntimeMetadataResult,
+  resolveComponentAdminRuntimeFactory,
+  RuntimeMetadataModule,
+} from './component-admin-runtime';
 import {
   EbcaRuntimeGraphFormat,
   formatEbcaRuntimeGraph,
@@ -67,14 +71,18 @@ async function main(): Promise<void> {
   }
 
   if (options.command === 'component') {
-    const runtimeModule = await loadRuntimeMetadata(options.runtimeModulePath, {
-      loadProjectMetadata: false,
+    const runtime = await loadRuntimeMetadata(options.runtimeModulePath, {
+      loadProjectMetadata: true,
+      metadataIntrospectionOnly: false,
     });
     const admin = await import('./admin-component-crud.js');
     const result = await admin.runComponentAdminOperation(
       readComponentAdminRequest(options),
       {
-        createTestingModule: resolveComponentAdminRuntimeFactory(runtimeModule),
+        createTestingModule: resolveComponentAdminRuntimeFactory(
+          runtime.module,
+          runtime.projectMetadata,
+        ),
       },
     );
     print(JSON.stringify(result, null, 2));
@@ -83,6 +91,7 @@ async function main(): Promise<void> {
 
   await loadRuntimeMetadata(options.runtimeModulePath, {
     loadProjectMetadata: true,
+    metadataIntrospectionOnly: true,
   });
 
   const snapshot = inspectEbcaRuntime();
@@ -275,7 +284,7 @@ function parseOptions(args: string[]): CliOptions {
 async function loadRuntimeMetadata(
   runtimeModulePath: string | undefined,
   options: RuntimeMetadataLoadOptions,
-): Promise<RuntimeMetadataModule> {
+): Promise<RuntimeMetadataLoadResult> {
   if (!runtimeModulePath) {
     throw new Error(
       'EBCA runtime module is required. Pass --runtime-module <path> or set EBCA_RUNTIME_MODULE.',
@@ -284,38 +293,23 @@ async function loadRuntimeMetadata(
   const runtimeModule = (await import(
     resolveRuntimeModuleSpecifier(runtimeModulePath)
   )) as RuntimeMetadataModule;
-  if (options.loadProjectMetadata && runtimeModule.loadProjectRuntimeMetadata) {
-    await runtimeModule.loadProjectRuntimeMetadata({
-      introspectionOnly: true,
-    });
-  }
-  return runtimeModule;
+  const projectMetadata =
+    options.loadProjectMetadata && runtimeModule.loadProjectRuntimeMetadata
+      ? await runtimeModule.loadProjectRuntimeMetadata({
+          introspectionOnly: options.metadataIntrospectionOnly,
+        })
+      : undefined;
+  return { module: runtimeModule, projectMetadata };
 }
 
 interface RuntimeMetadataLoadOptions {
   loadProjectMetadata: boolean;
+  metadataIntrospectionOnly: boolean;
 }
 
-interface ProjectRuntimeMetadataOptions {
-  introspectionOnly: boolean;
-}
-
-interface RuntimeMetadataModule {
-  createEbcaComponentAdminTestingModule?: ComponentAdminRuntimeFactory;
-  loadProjectRuntimeMetadata?: (
-    options: ProjectRuntimeMetadataOptions,
-  ) => Promise<void> | void;
-}
-
-function resolveComponentAdminRuntimeFactory(
-  runtimeModule: RuntimeMetadataModule,
-): ComponentAdminRuntimeFactory {
-  if (!runtimeModule.createEbcaComponentAdminTestingModule) {
-    throw new Error(
-      'Component admin command requires runtime module export createEbcaComponentAdminTestingModule().',
-    );
-  }
-  return runtimeModule.createEbcaComponentAdminTestingModule;
+interface RuntimeMetadataLoadResult {
+  module: RuntimeMetadataModule;
+  projectMetadata: ProjectRuntimeMetadataResult | void;
 }
 
 function resolveRuntimeModuleSpecifier(runtimeModulePath: string): string {

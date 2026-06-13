@@ -76,7 +76,7 @@ async function createComponentAdminRuntime(
   const moduleRef = await options.createTestingModule();
   await moduleRef.init();
   return {
-    componentManager: moduleRef.get(ComponentManager),
+    componentManager: moduleRef.get(ComponentManager, { strict: false }),
     moduleRef,
   };
 }

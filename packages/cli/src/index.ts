@@ -1,4 +1,5 @@
 export * from './admin-component-crud';
+export * from './component-admin-runtime';
 export * from './runtime-graph';
 export * from './runtime-inspector';
 export * from './runtime-report';

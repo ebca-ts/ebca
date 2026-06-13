@@ -12,7 +12,7 @@ It is built for large event-driven systems where the architecture should be quer
 npm install --save-dev @ebca/cli
 ```
 
-The CLI expects a project runtime module that imports/registers the application's EBCA entities, components, systems, read repositories, and contract declarations.
+The CLI expects a project runtime module that imports/registers the application's EBCA entities, components, systems, read repositories, and contract declarations. Component admin commands also need the root Nest module or modules used by the application's real entrypoints, so the CLI can find the graph that provides `ComponentManager`.
 
 ## Why It Exists
 
@@ -70,7 +70,25 @@ export async function loadProjectRuntimeMetadata(): Promise<void> {
 }
 ```
 
-For component admin commands, the runtime module can also export a testing-module factory:
+For component admin commands, return the root modules used by your real `main.ts` entrypoints. These should be the modules passed to `NestFactory.create(...)` or `NestFactory.createMicroservice(...)`, not random feature modules:
+
+```ts
+import './components/register-components';
+import { OrdersModule } from './orders/orders.module';
+import { MarketModule } from './market/market.module';
+
+export async function loadProjectRuntimeMetadata(): Promise<{
+  rootModules: readonly [typeof OrdersModule, typeof MarketModule];
+}> {
+  await import('./orders/order.module');
+  await import('./market/market.module');
+  return {
+    rootModules: [OrdersModule, MarketModule],
+  };
+}
+```
+
+The CLI compiles these root modules and uses the first module graph that provides `ComponentManager`. When the project needs custom test overrides, the runtime module can still export a testing-module factory:
 
 ```ts
 import { Test, TestingModule } from '@nestjs/testing';
@@ -116,7 +134,7 @@ The CLI does not accept project-specific `componentsRoot` or `enumsRoot` paths. 
 
 ## Component Admin
 
-The `component get|add|update|upsert|remove` commands call the real `ComponentManager` from your project module. They are intended for operator/debug use and should not become normal business workflows.
+The `component get|add|update|upsert|remove` commands call the real `ComponentManager` from your project module. Before running them, the CLI calls `loadProjectRuntimeMetadata({ introspectionOnly: false })` when that hook exists, then tries the returned `rootModules`/`startModules`/`modules`, exported runtime module collections, exported Nest modules, and finally loaded project modules for backward compatibility. They are intended for operator/debug use and should not become normal business workflows.
 
 ## License
 
