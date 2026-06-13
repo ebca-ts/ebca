@@ -15,7 +15,9 @@ export interface WebsocketContractSourceComponent {
 export interface WebsocketContractAstOptions {
   readonly components: readonly WebsocketContractSourceComponent[];
   readonly declarations: readonly EbcaContractDeclarationMetadata[];
-  readonly gate: 'ws';
+  readonly gate: 'ws' | 'gql';
+  readonly jsonObjectTypeName?: string;
+  readonly jsonValueTypeName?: string;
 }
 
 export interface WebsocketContractProperty {
@@ -45,10 +47,12 @@ interface TypeResolutionContext {
     string,
     EbcaContractDeclarationKind
   >;
+  readonly jsonValueTypeName: string;
+  readonly safeGlobalTypeNames: ReadonlySet<string>;
   readonly usedContractTypeNames: Set<string>;
 }
 
-const safeGlobalTypeNames = new Set([
+const baseSafeGlobalTypeNames = new Set([
   'Array',
   'CommandComponentSource',
   'CommandComponentStatus',
@@ -66,8 +70,6 @@ const safeGlobalTypeNames = new Set([
   'Record',
   'Required',
   'ReturnType',
-  'WebsocketJsonObject',
-  'WebsocketJsonValue',
 ]);
 
 export function readWebsocketContractAst(
@@ -81,6 +83,9 @@ export function readWebsocketContractAst(
     declarations: contractDeclarations,
   });
   const declarations = readExportedTypeDeclarations(sourceFiles);
+  const jsonObjectTypeName =
+    options.jsonObjectTypeName ?? 'WebsocketJsonObject';
+  const jsonValueTypeName = options.jsonValueTypeName ?? 'WebsocketJsonValue';
   const context: TypeResolutionContext = {
     declarations,
     allowedDeclarationKinds: new Map(
@@ -89,6 +94,12 @@ export function readWebsocketContractAst(
         declaration.kind,
       ]),
     ),
+    jsonValueTypeName,
+    safeGlobalTypeNames: new Set([
+      ...baseSafeGlobalTypeNames,
+      jsonObjectTypeName,
+      jsonValueTypeName,
+    ]),
     usedContractTypeNames: new Set(),
   };
   const sourceByPath = new Map(
@@ -306,11 +317,11 @@ function resolvePayloadType(
   context: TypeResolutionContext,
 ): string {
   if (!typeText) {
-    return 'WebsocketJsonValue';
+    return context.jsonValueTypeName;
   }
   const normalizedType = normalizePayloadType(typeText);
   for (const typeName of readReferencedTypeNames(normalizedType)) {
-    if (safeGlobalTypeNames.has(typeName)) {
+    if (context.safeGlobalTypeNames.has(typeName)) {
       continue;
     }
     const declaration = context.declarations.get(typeName);
@@ -322,8 +333,8 @@ function resolvePayloadType(
       continue;
     }
     return normalizedType.endsWith('[]')
-      ? 'WebsocketJsonValue[]'
-      : 'WebsocketJsonValue';
+      ? `${context.jsonValueTypeName}[]`
+      : context.jsonValueTypeName;
   }
   return normalizedType;
 }
@@ -354,7 +365,7 @@ function collectContractTypeDeclaration(
       if (referencedTypeName === typeName) {
         continue;
       }
-      if (safeGlobalTypeNames.has(referencedTypeName)) {
+      if (context.safeGlobalTypeNames.has(referencedTypeName)) {
         continue;
       }
       const referencedDeclaration =

@@ -9,6 +9,8 @@ Implementation files for the EBCA command-line tooling.
 - `runtime-graph.ts` renders registry links as Mermaid or Graphviz DOT.
 - `runtime-report.ts` builds higher-level architecture reports.
 - `websocket-contract-generator.ts` generates TypeScript transport contracts.
+- `graphql-contract-generator.ts` generates TypeScript contracts for GraphQL generic EBCA fields.
+- `graphql-query-contract-renderer.ts` renders GraphQL query params and result payloads.
 - `websocket-contract-ast.ts` resolves component/type shapes from registered source files.
 - `websocket-contract-source-files.ts` follows local imports from registered declarations.
 - `websocket-query-contract-renderer.ts` renders query params and result payloads.

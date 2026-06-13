@@ -49,7 +49,9 @@ export interface EbcaRuntimeComponentDescriptor {
   isPersistent: boolean;
   isCommand: boolean;
   inbound: boolean;
+  inboundFields: readonly string[] | null;
   websocket: boolean;
+  websocketLifecycleKinds: readonly EbcaEventType[] | null;
   delayedBy: string | null;
   sourceFile: string | null;
 }
@@ -120,7 +122,13 @@ export function inspectEbcaRuntime(): EbcaRuntimeSnapshot {
         isPersistent: options?.isPersistent === true,
         isCommand: componentClass.prototype instanceof BaseCommandComponent,
         inbound: options?.inbound?.expose === true,
+        inboundFields: options?.inbound?.fields
+          ? [...options.inbound.fields]
+          : null,
         websocket: options?.websocket?.expose === true,
+        websocketLifecycleKinds: options?.websocket?.lifecycleKinds
+          ? [...options.websocket.lifecycleKinds]
+          : null,
         delayedBy: options?.delayedBy ?? null,
         sourceFile,
       } satisfies EbcaRuntimeComponentDescriptor;

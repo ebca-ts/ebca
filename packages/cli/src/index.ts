@@ -3,6 +3,8 @@ export * from './runtime-graph';
 export * from './runtime-inspector';
 export * from './runtime-report';
 export * from './testing-module';
+export * from './graphql-contract-generator';
+export * from './graphql-query-contract-renderer';
 export * from './websocket-contract-ast';
 export * from './websocket-contract-generator';
 export * from './websocket-query-contract-renderer';

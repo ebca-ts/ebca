@@ -53,6 +53,7 @@ npm run ebca -- report summary
 npm run ebca -- report process --component PlaceOrderCommandComponent --depth 4
 npm run ebca -- report boundary-risks
 npm run ebca -- contract websocket --out ./src/contracts/ebca.generated.ts
+npm run ebca -- contract graphql --out ./src/contracts/ebca.graphql.generated.ts
 ```
 
 ## Runtime Module Contract
@@ -98,6 +99,7 @@ The CLI never hardcodes your app folders or domain names.
 | `report boundary-risks` | Detect generic multi-writer ownership problems. |
 | `report io-coverage` | Find handlers missing useful `@EbcaIO` declarations. |
 | `contract websocket` | Generate a TypeScript transport contract for WebSocket consumers. |
+| `contract graphql` | Generate a TypeScript transport contract for GraphQL queries, component mutations, snapshots, and subscriptions. |
 
 ## Contract Generation
 
@@ -108,6 +110,7 @@ Generated contracts are based on runtime metadata:
 - `@EbcaQuery` and `@EbcaQueryParam` provide query names and params.
 - `@EbcaType` and `@EbcaEnum` explicitly opt types/enums into generated contracts.
 - Command component contracts include status, source (`system`, `websocket`, `rest`, `graphql`), rejection reason, and failure details.
+- GraphQL contracts are TypeScript client/SDK contracts for the generic `ebcaQuery`, `ebcaComponentMutation`, `ebcaComponentRequest`, and `ebcaComponent` fields.
 
 The CLI does not accept project-specific `componentsRoot` or `enumsRoot` paths. If a type should be part of a generated contract, register it.
 

@@ -38,7 +38,7 @@ interface CliOptions {
     | 'report'
     | 'help';
   componentName?: string;
-  contractKind?: 'websocket';
+  contractKind?: 'graphql' | 'websocket';
   depth: number;
   domainName?: string;
   entityName?: string;
@@ -87,8 +87,35 @@ async function main(): Promise<void> {
 
   const snapshot = inspectEbcaRuntime();
   if (options.command === 'contract') {
-    if (options.contractKind !== 'websocket') {
-      throw new Error('Contract command requires one of: websocket.');
+    if (!options.contractKind) {
+      throw new Error('Contract command requires one of: websocket, graphql.');
+    }
+    if (options.contractKind === 'graphql') {
+      const generator = await import('./graphql-contract-generator.js');
+      const result = generator.generateGraphqlContract(snapshot, {
+        outputPath: options.outputPath,
+      });
+      if (options.json) {
+        print(
+          JSON.stringify(
+            {
+              outputPath: result.outputPath,
+              stats: result.stats,
+            },
+            null,
+            2,
+          ),
+        );
+        return;
+      }
+      if (result.outputPath) {
+        print(
+          `Generated graphql contract: ${result.outputPath} (${result.stats.byteLength} bytes, ${result.stats.queryCount} queries).`,
+        );
+        return;
+      }
+      print(result.code);
+      return;
     }
     const generator = await import('./websocket-contract-generator.js');
     const result = generator.generateWebsocketContract(snapshot, {
@@ -341,8 +368,10 @@ function parseReportKind(value: string | undefined): EbcaRuntimeReportKind {
   );
 }
 
-function parseContractKind(value: string | undefined): 'websocket' | undefined {
-  if (value === 'websocket') {
+function parseContractKind(
+  value: string | undefined,
+): CliOptions['contractKind'] {
+  if (value === 'graphql' || value === 'websocket') {
     return value;
   }
   return undefined;
@@ -483,6 +512,7 @@ function printHelp(): void {
       '  bun run ebca -- graph [--format mermaid|dot] [--with-io] [--component Name] [--entity Name] [--system Name] [--event added|updated|removed] [--metadata-only]',
       '  bun run ebca -- report [summary|domains|fanout|commands|command-flows|command-contracts|owners|risks|boundary-risks|boundary-diagnostics|multi-writers|tests|empty-io|io-coverage|process|cycles] [--component Name] [--entity Name] [--system Name] [--domain Name] [--depth N] [--direction forward|reverse|both] [--verbose] [--json] [--metadata-only]',
       '  bun run ebca -- contract websocket [--out path] [--json]',
+      '  bun run ebca -- contract graphql [--out path] [--json]',
       '  bun run ebca -- component get --entity EntityName --id entity-id --component ComponentName',
       '  bun run ebca -- component add --entity EntityName --id entity-id --component ComponentName --payload \'{"field":"value"}\'',
       '  bun run ebca -- component update --entity EntityName --id entity-id --component ComponentName --payload \'{"field":"value"}\'',
@@ -522,6 +552,7 @@ function printHelp(): void {
       '  @EbcaIO Component targets mean trigger entity; tuple [EntityClass, ComponentClass] targets explicit cross-entity IO.',
       '  Due components are treated as delayed command/input intents by report commands.',
       '  contract websocket emits only runtime EBCA names plus declarations exposed through @EbcaType/@EbcaEnum.',
+      '  contract graphql emits the same runtime component surface for the GraphQL generic fields and uses gql-gated @EbcaQuery/@EbcaType/@EbcaEnum declarations.',
       '  component commands require runtime env for CockroachDB, Redis and NATS and are intended to run inside Docker.',
       '  set EBCA_CLI_DEBUG=1 to print Nest decorator registration logs.',
     ].join('\n'),
